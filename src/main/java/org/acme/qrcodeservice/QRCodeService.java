@@ -35,7 +35,7 @@ public class QRCodeService {
         BitMatrix bitMatrix;
 
         try {
-            bitMatrix = qrCodeWriter.encode(data, BarcodeFormat.QR_CODE, width, height);
+            bitMatrix = qrCodeWriter.encode(sanitizedData, BarcodeFormat.QR_CODE, width, height);
         } catch (WriterException e) {
             return Uni.createFrom().failure(new RuntimeException("Failed to create QR code", e));
         }
@@ -59,10 +59,8 @@ public class QRCodeService {
     }
 
     private String sanitizeInput(String input) {
-        // Remove potentially harmful characters using a regular expression
-        // For example, remove anything that's not alphanumeric or spaces
-        String sanitizedInput = input.replaceAll("[^a-zA-Z0-9\\s]", "");
-
+        // Remove any non-alphanumeric chareacters from the input
+        String sanitizedInput = input.replaceAll("[^A-Za-z0-9]", "");
         return sanitizedInput;
     }
 
